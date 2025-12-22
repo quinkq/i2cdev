@@ -5,6 +5,8 @@ groups:
   - common
 code_owners:
   - UncleRus
+  - quinkq
+  - trombik
 depends:
   - driver
   - freertos
@@ -26,3 +28,5 @@ license: MIT
 copyrights:
   - name: UncleRus
     year: 2018
+  - name: quinkq
+    year: 2025
