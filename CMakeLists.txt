@@ -1,10 +1,5 @@
 # ESP-IDF CMake component for i2cdev library
-if(${IDF_VERSION_MAJOR} STREQUAL 5 AND ${IDF_VERSION_MINOR} LESS 3)
-    # Use driver component as esp_driver_gpio is not available before 5.3
-    set(req driver freertos log esp_timer)
-else()
-    set(req esp_driver_gpio freertos esp_idf_lib_helpers)
-endif()
+set(req driver freertos esp_idf_lib_helpers)
 
 # ESP-IDF version detection for automatic driver selection
 # Check for manual override via Kconfig
@@ -19,7 +14,7 @@ elseif(IDF_VERSION_MAJOR LESS 5)
     set(USE_LEGACY_DRIVER TRUE)
     message(STATUS "i2cdev: ESP-IDF v${IDF_VERSION_MAJOR}.x detected, using legacy driver")
 elseif(IDF_VERSION_MAJOR EQUAL 5 AND IDF_VERSION_MINOR LESS 3)
-    set(USE_LEGACY_DRIVER TRUE)
+    set(USE_LEGACY_DRIVER TRUE) 
     message(STATUS "i2cdev: ESP-IDF v${IDF_VERSION_MAJOR}.${IDF_VERSION_MINOR} detected, using legacy driver")
 else()
     set(USE_LEGACY_DRIVER FALSE)
