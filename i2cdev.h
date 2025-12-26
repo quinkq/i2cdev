@@ -374,7 +374,8 @@ esp_err_t i2c_dev_write_reg(const i2c_dev_t *dev, uint8_t reg, const void *data,
  * @param[out] bus_handle Pointer to store the bus handle
  * @return ESP_OK on success
  * @return ESP_ERR_INVALID_ARG if port is invalid or bus_handle is NULL
- * @return ESP_ERR_INVALID_STATE if bus for this port is not initialized yet
+ * @return ESP_ERR_INVALID_STATE if i2cdev_init() was not called or bus for this port is not initialized yet
+ * @return ESP_ERR_TIMEOUT if port mutex could not be acquired
  *
  * @warning The returned handle is managed by i2cdev. Do NOT call i2c_del_master_bus()
  *          on it directly - i2cdev will handle cleanup when the last device is removed.

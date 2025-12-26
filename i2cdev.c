@@ -906,6 +906,13 @@ esp_err_t i2cdev_get_shared_handle(i2c_port_t port, void **bus_handle)
 
     i2c_port_state_t *port_state = &i2c_ports[port];
 
+    // Check if i2cdev subsystem is initialized
+    if (port_state->lock == NULL)
+    {
+        ESP_LOGE(TAG, "[Port %d] I2C subsystem not initialized - call i2cdev_init() first", port);
+        return ESP_ERR_INVALID_STATE;
+    }
+
     // Take port mutex for thread-safe access
     if (xSemaphoreTake(port_state->lock, pdMS_TO_TICKS(CONFIG_I2CDEV_TIMEOUT)) != pdTRUE)
     {
