@@ -895,3 +895,39 @@ esp_err_t i2cdev_done(void)
     ESP_LOGV(TAG, "I2C subsystem cleanup finished with result: %d", result);
     return result;
 }
+
+esp_err_t i2cdev_get_shared_handle(i2c_port_t port, void **bus_handle)
+{
+    if (port >= I2C_NUM_MAX || bus_handle == NULL)
+    {
+        ESP_LOGE(TAG, "Invalid arguments: port=%d, bus_handle=%p", port, bus_handle);
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    i2c_port_state_t *port_state = &i2c_ports[port];
+
+    // Take port mutex for thread-safe access
+    if (xSemaphoreTake(port_state->lock, pdMS_TO_TICKS(CONFIG_I2CDEV_TIMEOUT)) != pdTRUE)
+    {
+        ESP_LOGE(TAG, "[Port %d] Could not take port mutex for get_shared_handle", port);
+        return ESP_ERR_TIMEOUT;
+    }
+
+    // Check if bus is initialized
+    if (!port_state->installed || port_state->bus_handle == NULL)
+    {
+        xSemaphoreGive(port_state->lock);
+        ESP_LOGE(TAG, "[Port %d] Bus not initialized - create an i2c_dev_t device first to initialize the bus", port);
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    // Return the bus handle
+    *bus_handle = (void *)port_state->bus_handle;
+
+    ESP_LOGI(TAG, "[Port %d] Shared bus handle retrieved: %p (SDA=%d, SCL=%d, ref_count=%" PRIu32 ")",
+             port, port_state->bus_handle, port_state->sda_pin_current,
+             port_state->scl_pin_current, port_state->ref_count);
+
+    xSemaphoreGive(port_state->lock);
+    return ESP_OK;
+}
