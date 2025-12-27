@@ -22,9 +22,9 @@ endif()
 
 # Conditionally set dependencies based on driver version
 if(USE_LEGACY_DRIVER)
-    set(req driver freertos esp_idf_lib_helpers)
+    set(req driver freertos log esp_idf_lib_helpers)
 else()
-    set(req esp_driver_gpio esp_driver_i2c freertos esp_idf_lib_helpers)
+    set(req esp_driver_gpio esp_driver_i2c freertos log esp_idf_lib_helpers)
 endif()
 
 # Conditionally set the source file based on version detection or Kconfig override
