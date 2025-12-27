@@ -336,7 +336,6 @@ esp_err_t i2c_dev_write_reg(const i2c_dev_t *dev, uint8_t reg, const void *data,
  * 4. Pass the handle to ESP-IDF components (e.g., esp_lcd_new_panel_io_i2c)
  *
  * @note USAGE EXAMPLE:
- * @code{c}
  * // 1. Initialize i2cdev
  * i2cdev_init();
  *
@@ -368,7 +367,6 @@ esp_err_t i2c_dev_write_reg(const i2c_dev_t *dev, uint8_t reg, const void *data,
  * ESP_ERROR_CHECK(esp_lcd_new_panel_io_i2c(bus_handle, &io_config, &io_handle));
  *
  * // Both the sensor and display now share the same I2C bus with proper synchronization!
- * @endcode
  *
  * @param port I2C port number (e.g., I2C_NUM_0)
  * @param[out] bus_handle Pointer to store the bus handle
