@@ -180,8 +180,8 @@ typedef struct
 
     // ═══ Device Behavior Configuration (OPTIONAL) ═══
     bool disable_ack_check;  //!< Disable ACK checking (false=enabled [default], true=disabled)
-                             //!< WARNING: PERMANENT after first I2C transaction unless handle invalidated
-                             //!< Use i2c_dev_invalidate_handle() to force reconfiguration
+    //!< WARNING: PERMANENT after first I2C transaction unless handle invalidated
+    //!< Use i2c_dev_invalidate_handle() to force reconfiguration
 
     // ═══ User Configuration (REQUIRED) ═══
     // Configuration structure with i2c_config_t compatible field layout.
